@@ -57,3 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+# Bot Token And Other Sensitive Files
+config.json
+*.sqlite
+
+# Not using sqlite yet, never know when you'll need it though
