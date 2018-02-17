@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^11.3.0",
+    "util": "^0.10.3",
     "wattpad-api": "^0.2.1"
   }
 }
