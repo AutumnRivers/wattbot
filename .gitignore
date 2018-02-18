@@ -62,3 +62,5 @@ config.json
 *.sqlite
 
 # Not using sqlite yet, never know when you'll need it though
+# Temporarily ignore this since it is far from done
+website/

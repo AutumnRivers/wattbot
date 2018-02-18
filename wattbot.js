@@ -33,29 +33,39 @@ wattbot.on("message", message => {
         var mature = 0
     }
 
-const args = message.content.split(" ").slice(1).join(" ")
+var args = message.content.split(" ").slice(1).join(" ").split("offset:", 20).join(" ")
+
+var offset = message.content.split("offset:").slice(1).join("")
+var offset = parseInt(offset)
+if(isNaN(offset)) {
+    var offset = 0
+} else if(offset > 10) {
+    var offset = 10
+}
 
     if(message.content.toLowerCase().startsWith(prefix + "story")) {
+        console.log(args)
+        console.log(offset)
         console.log("Command ran")
         message.channel.send("Fetching story...").then(message => {
-            wp.storiesData(wpKey, args, 0, 1, mature).then(stories => {
+            wp.storiesData(wpKey, args, offset, 1, mature).then(stories => {
                 if(stories[0] == undefined) return message.edit("No story by that title was found. Maybe retry?")
             })
-        wp.storyTitle(wpKey, args, 0, mature).then(Stitle => {
+        wp.storyTitle(wpKey, args, offset, mature).then(Stitle => {
             var title = Stitle
-        wp.storyAuthor(wpKey, args, 0, mature).then(Sauthor => {
+        wp.storyAuthor(wpKey, args, offset, mature).then(Sauthor => {
             var author = Sauthor
-        wp.storyCover(wpKey, args, 0, mature).then(Scover => {
+        wp.storyCover(wpKey, args, offset, mature).then(Scover => {
             var cover = Scover
-        wp.storyDesc(wpKey, args, 0, mature).then(desc => {
+        wp.storyDesc(wpKey, args, offset, mature).then(desc => {
             var description = desc
-        wp.storyAuthorAvatar(wpKey, args, 0, mature).then(avatar => {
+        wp.storyAuthorAvatar(wpKey, args, offset, mature).then(avatar => {
             var authorImg = avatar
-        wp.storyReadCount(wpKey, args, 0, mature).then(rcount => {
+        wp.storyReadCount(wpKey, args, offset, mature).then(rcount => {
             var readcount = rcount
-        wp.storyVoteCount(wpKey, args, 0, mature).then(vcount => {
+        wp.storyVoteCount(wpKey, args, offset, mature).then(vcount => {
             var votes = vcount
-        wp.storiesData(wpKey, args, 0, 5, mature).then(story => {
+        wp.storiesData(wpKey, args, offset, 5, mature).then(story => {
             var storylink = story[0].url
             message.edit("", {embed: {
                 color: 0xff9400,
@@ -103,7 +113,7 @@ const args = message.content.split(" ").slice(1).join(" ")
         message.channel.send("", {embed:
         {color: 0xff9400,
         title: "Wattbot - Search for Wattpad stories in Discord!",
-        description: "`story` - Search for a story. Simple enough.\n`list` - Search for a list by the list owner's username.\n`info` - Get some info about Wattbot.\n`status` - See if Wattpad is down."
+        description: "`story` - Search for a story. Simple enough.\n`list` - Search for a list by the list owner's username.\n`info` - Get some info about Wattbot.\n`status` - See if Wattpad is down.\n`Non-Wattpad Commands`\n`support` - Get an invite to my support server!"
         }})
     }
 
@@ -119,6 +129,10 @@ const args = message.content.split(" ").slice(1).join(" ")
 
     if(message.content.toLowerCase().startsWith(prefix + "info")) {
         message.channel.send("**Thank you for using Wattbot! :heart:**\nI'm a Discord bot made by `SmartiePlays#5434`. My sole purpose is to find stories and lists on Wattpad using the wattpad-api npm module. Here are some facts about me.\n`Embed Links` is a basic required permission. Promise I won't embed anything bad!\nI was made in node 8, using the discord.js library.\nIf you're not in an NSFW channel, the mature filter is then turned ON, meaning stories marked as mature will *not* show up!")
+    }
+
+    if(message.content.toLowerCase().startsWith(prefix + "support")) {
+        message.channel.send("Here is my support server! https://discord.gg/P5YzHBD")
     }
 
 })
